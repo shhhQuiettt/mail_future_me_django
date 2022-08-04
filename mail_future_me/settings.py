@@ -12,8 +12,10 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 import os
+from dotenv import load_dotenv
 from django.urls import reverse_lazy
 
+load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -86,7 +88,7 @@ DATABASES = {
         "USER": os.environ["MARIADB_USER"],
         "PASSWORD": os.environ["MARIADB_PASSWORD"],
         "HOST": "db",
-        "PORT": os.environ.get("MARIADB_PORT"),
+        "PORT": os.environ["MARIADB_PORT"],
     }
 }
 
@@ -140,5 +142,9 @@ EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = os.environ.get("EMAIL_USER")
-EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_PASSWORD")
+print(os.environ)
+EMAIL_HOST_PASSWORD = os.environ["EMAIL_PASSWORD"]
+EMAIL_HOST_USER = os.environ["EMAIL_USER"]
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+print(EMAIL_HOST_PASSWORD, EMAIL_HOST_USER)

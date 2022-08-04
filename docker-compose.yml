@@ -9,6 +9,7 @@ services:
       - MARIADB_DATABASE=${MARIADB_DATABASE}
       - MARIADB_USER=${MARIADB_USER}
       - MARIADB_PASSWORD=${MARIADB_PASSWORD}
+      - MARIADB_PORT=${MARIADB_PORT}
     ports:
       - "33061:3306"
     restart: always
@@ -23,5 +24,6 @@ services:
       - MARIADB_DATABASE=${MARIADB_DATABASE}
       - MARIADB_PASSWORD=${MARIADB_PASSWORD}
       - MARIADB_USER=${MARIADB_USER}
+      - MARIADB_PORT=${MARIADB_PORT}
     depends_on:
       - db

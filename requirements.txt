@@ -3,6 +3,7 @@ psycopg2>=2.8
 mysqlclient
 django-crispy-forms
 django-bootstrap-v5
+python-dotenv
 
 redgreenunittest
 coverage
