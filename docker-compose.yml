@@ -11,6 +11,7 @@ services:
       - MARIADB_PASSWORD=${MARIADB_PASSWORD}
     ports:
       - "33061:3306"
+    restart: always
   web:
     build: .
     command: python manage.py runserver 0.0.0.0:8000

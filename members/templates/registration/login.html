@@ -1,0 +1,16 @@
+{% load bootstrap5 %}
+
+{%bootstrap_css%}
+{%bootstrap_javascript%}
+
+{%bootstrap_messages%}
+<h1>Sign in</h1>
+<form action="" method="post">
+    {% csrf_token %}
+    {%bootstrap_form form%}
+
+    {%buttons%}
+    <input type="submit" value="Log in">
+    {%endbuttons%}
+    <p> <a href="{%url 'password_reset'%}">Don't remember password?</a></p>
+</form>
