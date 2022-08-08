@@ -9,8 +9,10 @@ services:
       - MARIADB_DATABASE=${MARIADB_DATABASE}
       - MARIADB_USER=${MARIADB_USER}
       - MARIADB_PASSWORD=${MARIADB_PASSWORD}
+      - MARIADB_PORT=${MARIADB_PORT}
     ports:
       - "33061:3306"
+    restart: always
   web:
     build: .
     command: python manage.py runserver 0.0.0.0:8000
@@ -22,5 +24,6 @@ services:
       - MARIADB_DATABASE=${MARIADB_DATABASE}
       - MARIADB_PASSWORD=${MARIADB_PASSWORD}
       - MARIADB_USER=${MARIADB_USER}
+      - MARIADB_PORT=${MARIADB_PORT}
     depends_on:
       - db
