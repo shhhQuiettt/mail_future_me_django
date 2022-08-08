@@ -1,12 +1,17 @@
 from django.shortcuts import render, redirect
 from .forms import CreateUserForm
 
+from django.urls import reverse
 from django.contrib import messages
 
 # Create your views here.
 
 
 def signup(request):
+
+    if request.user.is_authenticated:
+        return redirect(reverse("mailing"))
+
     form = CreateUserForm()
 
     if request.method == "POST":

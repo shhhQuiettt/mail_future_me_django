@@ -5,4 +5,4 @@ from django.views.generic import TemplateView
 
 
 class MailingView(TemplateView):
-    template_name = "mailing/mailing.html"
+    template_name = "mailing/base.html"
