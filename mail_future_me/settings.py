@@ -111,6 +111,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTH_USER_MODEL = "members.User"
+
 LOGIN_REDIRECT_URL = reverse_lazy("mailing")
 LOGOUT_REDIRECT_URL = reverse_lazy("login")
 
