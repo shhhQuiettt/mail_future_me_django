@@ -4,6 +4,7 @@ mysqlclient
 django-crispy-forms
 django-bootstrap-v5
 python-dotenv
+six
 
 redgreenunittest
 coverage

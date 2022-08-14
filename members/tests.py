@@ -106,3 +106,8 @@ class TestAuthentication(TestCase):
         self.assertTemplateUsed("registration/password_change_form")
         self.assertContains(res, "Change password")
         self.assertEqual(res.status_code, 200)
+
+
+class TestUtils(TestCase):
+    def test_send_confirmation_mail(self):
+        ...

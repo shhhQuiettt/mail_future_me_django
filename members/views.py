@@ -1,29 +1,44 @@
-from django.shortcuts import render, redirect
-from .forms import CreateUserForm
-
-from django.urls import reverse
+from django.contrib import messages
+from django.contrib.auth import login, get_user_model
+from django.shortcuts import redirect, render, get_object_or_404
+from django.urls import reverse, reverse_lazy
+from django.views.generic import TemplateView
+from django.views.generic.edit import FormView
 from django.contrib import messages
 
-# Create your views here.
+
+from .forms import CreateUserForm
+from .utils import send_confirmation_mail, activate_user
 
 
-def signup(request):
+class SignUp(FormView):
+    template_name = "registration/signup.html"
+    form_class = CreateUserForm
+    success_url = "/accounts/signup/done"  # reverse_lazy("signup_done")
 
-    if request.user.is_authenticated:
-        return redirect(reverse("mailing"))
+    def form_valid(self, form):
+        # TODO: How can I obtain user from FormView instead of saving and fetching it again?
+        form.save()
+        email = form.data.get("email")
+        send_confirmation_mail(
+            user=get_object_or_404(get_user_model(), email=email),
+            domain=self.request.META["HTTP_HOST"],
+        )
+        messages.add_message(
+            self.request, messages.INFO, f"Veryfication email has been sent to {email}"
+        )
 
-    form = CreateUserForm()
+        return super().form_valid(form)
 
-    if request.method == "POST":
-        form = CreateUserForm(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.add_message(
-                request,
-                messages.INFO,
-                f"Account has been created for {form.cleaned_data.get('username')}",
-            )
-            return redirect("login")
 
-    context = {"form": form}
-    return render(request, "registration/signup.html", context)
+class SignUpDone(TemplateView):
+    template_name = "registration/signup_done.html"
+
+
+def activate_account(request, uidb64, token):
+    err = activate_user(uidb64=uidb64, token=token)
+
+    message = "Email confirmed! Now you can log in" if err is not None else err
+    messages.add_message(request, messages.INFO, message)
+
+    return redirect(reverse("login"))
