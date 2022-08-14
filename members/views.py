@@ -38,7 +38,11 @@ class SignUpDone(TemplateView):
 def activate_account(request, uidb64, token):
     err = activate_user(uidb64=uidb64, token=token)
 
-    message = "Email confirmed! Now you can log in" if err is not None else err
-    messages.add_message(request, messages.INFO, message)
+    message, level = (
+        "Email confirmed! Now you can log in",
+        message.INFO if err is not None else err,
+        messages.ERROR,
+    )
+    messages.add_message(request, level, message)
 
     return redirect(reverse("login"))
