@@ -7,9 +7,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    {%load bootstrap5%}
-    {%bootstrap_css%}
-    {%bootstrap_javascript%}
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    {% bootstrap_messages %}
 
 </head>
 
@@ -18,7 +19,6 @@
         {% block navbar %}
         {% include "mailing/navbar.html" %}
         {% endblock navbar %}
-        {%bootstrap_messages%}
         {% block content %}{% endblock content %}
 
     </div>
