@@ -1,0 +1,14 @@
+{% extends 'mailing/base.html' %}
+{% load bootstrap5 %}
+
+{% block content %}
+<h1>Send an email to future you</h1>
+<form action="" method="post">
+    {% csrf_token %}
+    {%bootstrap_form form%}
+
+    {%buttons%}
+    <input type="submit" value="Send" />
+    {%endbuttons%}
+</form>
+{% endblock content %}

@@ -6,6 +6,7 @@ from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
 from django.contrib.auth import get_user_model
+from .models import User
 
 
 class TokenGenerator(PasswordResetTokenGenerator):
@@ -17,7 +18,7 @@ class TokenGenerator(PasswordResetTokenGenerator):
         )
 
 
-def send_confirmation_mail(*, user, domain):
+def send_confirmation_mail(*, user: User, domain: str) -> None:
     account_activation_token = TokenGenerator()
     context = {
         "token": account_activation_token.make_token(user),
