@@ -5,7 +5,9 @@
 
 {%bootstrap_messages%}
 
+{% block content %}
 <div>
     <p>Confirmation email has been sent to </p>
     {% comment %} {%user.email%}!</p> {% endcomment %}
 </div>
+{% endblock content %}
