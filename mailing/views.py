@@ -14,7 +14,7 @@ class MailingView(LoginRequiredMixin, SuccessMessageMixin, FormView):
     form_class = NewEmailForm
     success_url = reverse_lazy("mailing")
     # TODO: Change to show message in years too
-    success_message = "Mail has been sent to you in"  # %(time_period)s months!"
+    success_message = "Mail has been sent to you in %(time_period)s months!"
 
     def form_valid(self, form):
         mail = form.save(commit=False)
