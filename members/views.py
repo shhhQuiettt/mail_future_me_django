@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth import login, get_user_model
 from django.shortcuts import redirect, render, get_object_or_404
+
 from django.urls import reverse, reverse_lazy
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
@@ -14,7 +15,7 @@ from .utils import send_confirmation_mail, activate_user
 class SignUp(FormView):
     template_name = "registration/signup.html"
     form_class = CreateUserForm
-    success_url = "/accounts/signup/done"  # reverse_lazy("signup_done")
+    success_url = reverse_lazy("login")
 
     def form_valid(self, form):
         # TODO: How can I obtain user from FormView instead of saving and fetching it again?
