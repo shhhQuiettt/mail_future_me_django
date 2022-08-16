@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "crispy_forms",
     "bootstrap5",
 ]
 
@@ -147,3 +146,8 @@ EMAIL_PORT = 587
 EMAIL_HOST_PASSWORD = os.environ["EMAIL_PASSWORD"]
 EMAIL_HOST_USER = os.environ["EMAIL_USER"]
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+DATE_INPUT_FORMATS = [
+    "%d-%m-Y",
+    "%d-%m-y",
+]

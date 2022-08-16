@@ -1,6 +1,8 @@
 from django.test import TestCase
 from django.contrib.auth import get_user_model
 from django.urls import reverse
+from unittest.mock import patch
+from . import utils
 
 # Create your tests here.
 
@@ -53,10 +55,6 @@ class TestAuthentication(TestCase):
             first_name="andrzejek",
             is_active=True,
         )
-        # UserModel = get_user_model()
-        # self.user = UserModel.objects.create_user(
-        #     email="test@test.pl", password="asdf", first_name="andrzejek"
-        # )
 
     def test_login_form(self):
         url = reverse("login")
@@ -106,3 +104,19 @@ class TestAuthentication(TestCase):
         self.assertTemplateUsed("registration/password_change_form")
         self.assertContains(res, "Change password")
         self.assertEqual(res.status_code, 200)
+
+
+class TestUtils(TestCase):
+    def setUp(self):
+        UserModel = get_user_model()
+        self.user = UserModel.objects.create_user(
+            email="test@test.pl",
+            password="asdf",
+            first_name="andrzejek",
+            is_active=True,
+        )
+
+    def test_send_confirmation_mail(self):
+        with patch("members.utils.send_mail") as mock_send_email:
+            utils.send_confirmation_mail(user=self.user, domain="localhost:8000")
+            mock_send_email.assert_called_once()
