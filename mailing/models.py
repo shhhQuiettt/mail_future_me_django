@@ -8,3 +8,4 @@ class EmailMessage(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     due_to = models.DateField()
     owner = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    sent = models.BooleanField(default=False)

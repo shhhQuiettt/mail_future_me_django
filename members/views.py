@@ -1,15 +1,14 @@
 from django.contrib import messages
-from django.contrib.auth import login, get_user_model
-from django.shortcuts import redirect, render, get_object_or_404
-
+from django.contrib.auth import get_user_model, login
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse, reverse_lazy
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
-from django.contrib import messages
-
+from mailing.models import EmailMessage
 
 from .forms import CreateUserForm
-from .utils import send_confirmation_mail, activate_user
+from .permissions import LoginRequiredMixin
+from .utils import activate_user, send_confirmation_mail
 
 
 class SignUp(FormView):
@@ -32,10 +31,6 @@ class SignUp(FormView):
         return super().form_valid(form)
 
 
-class SignUpDone(TemplateView):
-    template_name = "registration/signup_done.html"
-
-
 def activate_account(request, uidb64, token):
     err = activate_user(uidb64=uidb64, token=token)
 
@@ -47,3 +42,12 @@ def activate_account(request, uidb64, token):
     messages.add_message(request, level, message)
 
     return redirect(reverse("login"))
+
+
+class Profile(LoginRequiredMixin, TemplateView):
+    template_name = "members/profile.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["emails"] = EmailMessage.objects.filter(owner=self.request.user)
+        return context

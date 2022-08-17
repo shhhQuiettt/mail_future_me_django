@@ -1,0 +1,26 @@
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Sending date</th>
+            <th scope="col">Recaiving date</th>
+            <th scope="col">Sent</th>
+            <th scope="col">Read</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for email in emails %}
+        <tr class="align-middle">
+            <th scope="row">{{forloop.counter}}</th>
+            <td>{{email.created_at}}</td>
+            <td>{{email.due_to}}</td>
+            {% comment %} TODO: Change to icons {% endcomment %}
+            <td>{{email.sent}}</td>
+            <td>
+                <button type="button" class="btn btn-light">Read</button>
+            </td>
+        </tr>
+
+        {% endfor %}
+    </tbody>
+</table>
