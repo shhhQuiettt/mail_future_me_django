@@ -151,3 +151,5 @@ DATE_INPUT_FORMATS = [
     "%d-%m-Y",
     "%d-%m-y",
 ]
+
+TEST_RUNNER = "redgreenunittest.django.runner.RedGreenDiscoverRunner"

@@ -17,7 +17,8 @@
             {% comment %} TODO: Change to icons {% endcomment %}
             <td>{{email.sent}}</td>
             <td>
-                <button type="button" class="btn btn-light">Read</button>
+                <a href="{% if email.sent %}#{% endif %}" type="button"
+                    class="btn btn-outline-dark {% if not email.sent %}disabled{% endif %}">Read</a>
             </td>
         </tr>
 
