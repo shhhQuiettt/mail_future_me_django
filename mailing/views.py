@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic.edit import FormView
+from django.views.generic import TemplateView
 from django.contrib.messages.views import SuccessMessageMixin
 from .permissions import LoginRequiredMixin
 from .forms import NewEmailForm
@@ -21,3 +22,7 @@ class MailingView(LoginRequiredMixin, SuccessMessageMixin, FormView):
         mail.owner = self.request.user
         mail.save()
         return super().form_valid(form)
+
+
+class AboutView(TemplateView):
+    template_name = "mailing/about.html"
