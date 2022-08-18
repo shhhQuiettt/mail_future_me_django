@@ -20,7 +20,7 @@ class NewEmailForm(forms.ModelForm):
 
     time_period = forms.ChoiceField(
         choices=PERIOD_CHOICES,
-        # required=True,
+        required=True,
     )
 
     def save(self, *args, **kwargs):
