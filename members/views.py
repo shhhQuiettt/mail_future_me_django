@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.contrib.auth import get_user_model, login
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse, reverse_lazy
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView
 from django.views.generic.edit import FormView
 from mailing.models import EmailMessage
 
@@ -44,10 +44,7 @@ def activate_account(request, uidb64, token):
     return redirect(reverse("login"))
 
 
-class Profile(LoginRequiredMixin, TemplateView):
+class Profile(LoginRequiredMixin, ListView):
     template_name = "members/profile.html"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["emails"] = EmailMessage.objects.filter(owner=self.request.user)
-        return context
+    model = EmailMessage
+    paginate_by = 3

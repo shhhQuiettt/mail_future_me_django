@@ -9,9 +9,9 @@
         </tr>
     </thead>
     <tbody>
-        {% for email in emails %}
+        {% for email in object_list %}
         <tr class="align-middle">
-            <th scope="row">{{forloop.counter}}</th>
+            <th scope="row">{{ forloop.counter0|add:page_obj.start_index }}</th>
             <td>{{email.created_at}}</td>
             <td>{{email.due_to}}</td>
             {% comment %} TODO: Change to icons {% endcomment %}
@@ -25,3 +25,16 @@
         {% endfor %}
     </tbody>
 </table>
+{% if paginator.num_pages != 1 %}
+{% if paginator.num_pages != 2 %}
+
+<a href="?page=1" type="button" class="btn btn-outline-dark">1</a>
+{% endif %}
+{% if page_obj.has_previous %}
+<a href="?page={{page_obj.previous_page_number}}" type="button" class="btn btn-outline-dark">&lt </a>
+{% endif %}
+<a type="button" class="btn btn-outline-dark">{{page_obj.number}} of {{paginator.num_pages}}</a>
+{% if page_obj.has_next %}
+<a href="?page={{page_obj.next_page_number}}" type="button" class="btn btn-outline-dark">&gt</a>
+{% endif %}
+{% endif %}
