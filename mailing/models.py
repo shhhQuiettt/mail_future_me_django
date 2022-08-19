@@ -12,6 +12,9 @@ class EmailMessage(models.Model):
     owner = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     sent = models.BooleanField(default=False)
 
+    def __str__(self):
+        return f"Email Message for {self.owner.email} ({self.pk})"
+
     def save(self):
         self.full_clean()
         return super().save()

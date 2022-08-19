@@ -3,4 +3,9 @@ from .models import EmailMessage
 
 # Register your models here.
 
-admin.site.register(EmailMessage)
+
+class EmailAdmin(admin.ModelAdmin):
+    list_display = ("__str__", "due_to")
+
+
+admin.site.register(EmailMessage, EmailAdmin)
