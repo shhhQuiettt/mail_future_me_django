@@ -57,5 +57,6 @@ class User(AbstractBaseUser, PermissionsMixin):
             f"{self.email} ({self.first_name})" if self.first_name != "" else self.email
         )
 
-
-# Create your models here.
+    @property
+    def email_count(self):
+        return self.emailmessage_set.count()
