@@ -17,7 +17,32 @@ class UserAdminConfig(UserAdmin):
 
     inlines = (EmailMessageAdminInline,)
 
+    # Dont display inlines if form is an add form
+    def get_inlines(self, request, obj):
+        inl = self.inlines if obj is not None else ()
+        return inl
+
     fieldsets = (
+        (
+            None,
+            {
+                "fields": ("email", "first_name"),
+            },
+        ),
+        (
+            "Permissions",
+            {
+                "fields": (
+                    "user_permissions",
+                    "groups",
+                    "is_staff",
+                    "is_superuser",
+                ),
+            },
+        ),
+    )
+
+    add_fieldsets = (
         (
             None,
             {
