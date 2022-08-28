@@ -1,14 +1,28 @@
 from django.contrib import messages
 from django.contrib.auth import get_user_model, login
+from django.contrib.auth.views import LoginView
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse, reverse_lazy
 from django.views.generic import TemplateView, ListView
 from django.views.generic.edit import FormView
 from mailing.models import EmailMessage
 
-from .forms import CreateUserForm
+from .forms import CreateUserForm, LoginForm
 from .permissions import LoginRequiredMixin
 from .utils import activate_user, send_confirmation_mail
+
+
+class LoginView(LoginView):
+    redirect_authenticated_user = True
+    authentication_form = LoginForm
+
+    def form_valid(self, form):
+        if not form.cleaned_data["remember_me"]:
+            #Session expires when user closes browser
+            self.request.session.set_expiry(0)
+            self.request.session.modified = True
+        print(self.request.session.__dict__)
+        return super().form_valid(form)
 
 
 class SignUp(FormView):
