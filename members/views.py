@@ -18,7 +18,7 @@ class LoginView(LoginView):
 
     def form_valid(self, form):
         if not form.cleaned_data["remember_me"]:
-            #Session expires when user closes browser
+            # Session expires when user closes browser
             self.request.session.set_expiry(0)
             self.request.session.modified = True
         print(self.request.session.__dict__)

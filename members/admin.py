@@ -43,7 +43,7 @@ class UserAdminConfig(UserAdmin):
         (
             None,
             {
-                "fields": ("email", "first_name"),
+                "fields": ("email", "first_name", "is_active"),
             },
         ),
         (
