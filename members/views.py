@@ -21,7 +21,6 @@ class LoginView(LoginView):
             # Session expires when user closes browser
             self.request.session.set_expiry(0)
             self.request.session.modified = True
-        print(self.request.session.__dict__)
         return super().form_valid(form)
 
 
