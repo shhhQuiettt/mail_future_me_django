@@ -8,7 +8,7 @@ from django.views.generic.edit import FormView
 from mailing.models import EmailMessage
 
 from .forms import CreateUserForm, LoginForm
-from .permissions import LoginRequiredMixin
+from .permissions import LoginRequiredMixin, LogoutRequiredMixin
 from .utils import activate_user, send_confirmation_mail
 
 
@@ -24,7 +24,7 @@ class LoginView(LoginView):
         return super().form_valid(form)
 
 
-class SignUp(FormView):
+class SignUp(LogoutRequiredMixin, FormView):
     template_name = "registration/signup.html"
     form_class = CreateUserForm
     success_url = reverse_lazy("login")

@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.exceptions import ValidationError
+from django.core.mail import send_mail
 from .validators import in_the_future
 from django.contrib.auth import get_user_model
 
@@ -18,3 +19,12 @@ class EmailMessage(models.Model):
     def save(self):
         self.full_clean()
         return super().save()
+
+    def send(self):
+        is_sent = send_mail(
+            subject=self.title,
+            message=self.body,
+            from_email=None,
+            recipient_list=[self.owner.email],
+        )
+        self.sent = is_sent

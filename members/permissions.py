@@ -1,5 +1,9 @@
-from django.contrib.auth.mixins import LoginRequiredMixin as DjangoLoginRequiredMixin
+from django.contrib.auth.mixins import (
+    LoginRequiredMixin as DjangoLoginRequiredMixin,
+    UserPassesTestMixin as DjangoUserPassesTestMixin,
+)
 from django.contrib import messages
+from django.shortcuts import redirect
 
 
 class LoginRequiredMixin(DjangoLoginRequiredMixin):
@@ -10,3 +14,10 @@ class LoginRequiredMixin(DjangoLoginRequiredMixin):
             self.request, messages.ERROR, self.permission_denied_message
         )
         return super().handle_no_permission()
+
+
+class LogoutRequiredMixin(DjangoUserPassesTestMixin):
+    test_func = lambda self: not self.request.user.is_authenticated
+
+    def handle_no_permission(self):
+        return redirect("mailing")

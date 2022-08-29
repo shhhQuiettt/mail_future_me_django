@@ -1,12 +1,14 @@
-import six
 import logging
-from django.contrib.auth.tokens import PasswordResetTokenGenerator
-from django.shortcuts import get_object_or_404
-from django.core.mail import send_mail, EmailMultiAlternatives, EmailMessage
-from django.template.loader import render_to_string
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.utils.encoding import force_bytes, force_str
+
+import six
 from django.contrib.auth import get_user_model
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
+from django.core.mail import EmailMessage, EmailMultiAlternatives, send_mail
+from django.shortcuts import get_object_or_404
+from django.template.loader import render_to_string
+from django.utils.encoding import force_bytes, force_str
+from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
+
 from .models import User
 
 logger = logging.getLogger(__name__)
@@ -32,6 +34,7 @@ def send_confirmation_mail(*, user: User, domain: str) -> None:
     mail_subject = "Activate your account"
     mail_body = render_to_string("registration/mails/confirmation_mail.html", context)
     to_email = user.email
+
     email_message = EmailMultiAlternatives(
         subject=mail_subject,
         body=mail_body,
@@ -56,3 +59,4 @@ def activate_user(*, uidb64, token):
         return None
 
     return "Invalid activation token"
+
