@@ -46,12 +46,15 @@ class SignUp(FormView):
 
 def activate_account(request, uidb64, token):
     err = activate_user(uidb64=uidb64, token=token)
+    print(err)
 
     message, level = (
-        "Email confirmed! Now you can log in",
-        message.INFO if err is not None else err,
-        messages.ERROR,
+        ("Email confirmed! Now you can log in", messages.INFO)
+        if err is None
+        else (err, messages.ERROR)
     )
+    print(message, level)
+
     messages.add_message(request, level, message)
 
     return redirect(reverse("login"))

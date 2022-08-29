@@ -2,7 +2,7 @@ import six
 import logging
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.shortcuts import get_object_or_404
-from django.core.mail import send_mail
+from django.core.mail import send_mail, EmailMultiAlternatives, EmailMessage
 from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
@@ -32,9 +32,14 @@ def send_confirmation_mail(*, user: User, domain: str) -> None:
     mail_subject = "Activate your account"
     mail_body = render_to_string("registration/mails/confirmation_mail.html", context)
     to_email = user.email
-    number_of_sent_emails = send_mail(
-        mail_subject, message=mail_body, from_email=None, recipient_list=[to_email]
+    email_message = EmailMultiAlternatives(
+        subject=mail_subject,
+        body=mail_body,
+        to=[to_email],
     )
+    email_message.attach_alternative(mail_body, "text/html")
+    is_email_sent = email_message.send()
+
     if is_email_sent == 0:
         logger.error(f"Confirmation email not sent to {to_email}")
 
