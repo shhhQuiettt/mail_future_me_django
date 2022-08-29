@@ -13,11 +13,11 @@ services:
     ports:
       - "33061:3306"
     restart: always
-  web:
+  app:
     build: .
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
-      - .:/code
+      - .:/app
     ports:
       - "8000:8000"
     environment:
@@ -27,3 +27,29 @@ services:
       - MARIADB_PORT=${MARIADB_PORT}
     depends_on:
       - db
+
+  rabbitmq:
+    image: rabbitmq
+    ports:
+      - 5672:5672
+  
+  celery: 
+    restart: always
+    build:
+      context: .
+    command: celery -A mail_future_me worker --loglevel=INFO
+    volumes:
+      - .:/app
+    environment:
+      - MARIADB_DATABASE=${MARIADB_DATABASE}
+      - MARIADB_USER=${MARIADB_USER}
+      - MARIADB_PASSWORD=${MARIADB_PASSWORD}
+      - MARIADB_PORT=${MARIADB_PORT}
+    
+    depends_on:
+      - db
+      - rabbitmq
+      - app
+    
+
+  

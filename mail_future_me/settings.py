@@ -153,3 +153,6 @@ DATE_INPUT_FORMATS = [
 ]
 
 TEST_RUNNER = "redgreenunittest.django.runner.RedGreenDiscoverRunner"
+
+CELERY_BROKER_URL = "pyamqp://rabbitmq:5672"
+CELERY_RESULT_BACKEND = "rpc://rabbitmq:5672"
