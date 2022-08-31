@@ -9,16 +9,16 @@ class EmailMessage(models.Model):
     title = models.CharField(max_length=255)
     body = models.TextField(max_length=1500)
     created_at = models.DateTimeField(auto_now_add=True)
-    due_to = models.DateField(validators=[in_the_future])
+    due_to = models.DateField()  # REMOVE!! validators=[in_the_future])
     owner = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     sent = models.BooleanField(default=False)
 
     def __str__(self):
         return f"Email Message for {self.owner.email} ({self.pk})"
 
-    def save(self):
+    def save(self, *args, **kwargs):
         self.full_clean()
-        return super().save()
+        return super().save(*args, **kwargs)
 
     def send(self):
         is_sent = send_mail(
@@ -27,4 +27,5 @@ class EmailMessage(models.Model):
             from_email=None,
             recipient_list=[self.owner.email],
         )
-        self.sent = is_sent
+        self.sent = bool(is_sent)
+        return self.sent

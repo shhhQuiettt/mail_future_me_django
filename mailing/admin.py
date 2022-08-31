@@ -5,7 +5,7 @@ from .models import EmailMessage
 
 
 class EmailAdmin(admin.ModelAdmin):
-    list_display = ("__str__", "due_to")
+    list_display = ("__str__", "due_to", "sent")
 
 
 admin.site.register(EmailMessage, EmailAdmin)

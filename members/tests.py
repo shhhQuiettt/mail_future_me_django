@@ -174,6 +174,6 @@ class TestUtils(TestCase):
         )
 
     def test_send_confirmation_mail(self):
-        with patch("members.utils.send_mail") as mock_send_email:
+        with patch("members.utils.send_mail.delay") as mock_send_email:
             utils.send_confirmation_mail(user=self.user, domain="localhost:8000")
             mock_send_email.assert_called_once()

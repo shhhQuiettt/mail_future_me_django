@@ -3,7 +3,7 @@ from django.contrib.auth import get_user_model, login
 from django.contrib.auth.views import LoginView
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse, reverse_lazy
-from django.views.generic import TemplateView, ListView
+from django.views.generic import ListView, TemplateView
 from django.views.generic.edit import FormView
 from mailing.models import EmailMessage
 
@@ -37,23 +37,21 @@ class SignUp(LogoutRequiredMixin, FormView):
             user=get_object_or_404(get_user_model(), email=email),
             domain=self.request.META["HTTP_HOST"],
         )
+
         messages.add_message(
-            self.request, messages.INFO, f"Veryfication email has been sent to {email}"
+            self.request, messages.INFO, f"Verification email has been sent to {email}"
         )
 
         return super().form_valid(form)
 
 
 def activate_account(request, uidb64, token):
-    err = activate_user(uidb64=uidb64, token=token)
-    print(err)
-
-    message, level = (
-        ("Email confirmed! Now you can log in", messages.INFO)
-        if err is None
-        else (err, messages.ERROR)
-    )
-    print(message, level)
+    message, level = ("Email confirmed! Now you can log in", messages.INFO)
+    try:
+        activate_user(uidb64=uidb64, token=token)
+    except ValueError as e:
+        message = e
+        level = messages.ERROR
 
     messages.add_message(request, level, message)
 
