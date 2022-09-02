@@ -3,7 +3,7 @@ from typing import List
 from django.core.mail import EmailMultiAlternatives
 
 
-@shared_task
+@shared_task(ignore_result=True)
 def send_mail(
     *,
     subject: str,

@@ -35,8 +35,7 @@ ALLOWED_HOSTS = ["*"]
 # Application definition
 
 INSTALLED_APPS = [
-    "members.apps.MembersConfig",
-    "mailing.apps.MailingConfig",
+    "django_celery_beat",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -44,6 +43,8 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "bootstrap5",
+    "members.apps.MembersConfig",
+    "mailing.apps.MailingConfig",
 ]
 
 MIDDLEWARE = [

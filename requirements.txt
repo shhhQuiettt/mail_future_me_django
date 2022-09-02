@@ -6,6 +6,8 @@ python-dotenv
 six
 python-dateutil
 celery[redis]
+django_celery_beat
+flower
 
 redgreenunittest
 coverage
