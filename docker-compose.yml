@@ -39,8 +39,7 @@ services:
     ports:
       - 6379:6379
 
-  
-  celery: 
+  celery:
     restart: always
     build:
       context: .
@@ -54,7 +53,7 @@ services:
       - MARIADB_USER=${MARIADB_USER}
       - MARIADB_PASSWORD=${MARIADB_PASSWORD}
       - MARIADB_PORT=${MARIADB_PORT}
-    
+
     depends_on:
       - db
       - rabbitmq
@@ -73,13 +72,6 @@ services:
       - MARIADB_USER=${MARIADB_USER}
       - MARIADB_PASSWORD=${MARIADB_PASSWORD}
       - MARIADB_PORT=${MARIADB_PORT}
-    
+
     depends_on:
-      - db
-      - rabbitmq
-      - redis
-      - app
-
-    
-
-  
+      - celery
